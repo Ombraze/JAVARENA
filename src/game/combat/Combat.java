@@ -64,7 +64,8 @@ public class Combat {
                         }
                     }
                 }
-                case 3 -> {
+                case 3 -> changerMonstre();
+                case 4 -> {
                     System.out.println("Vous fuyez le combat !");
                     System.out.println("\nAppuyez sur Entrée pour continuer...");
                     scanner.nextLine();
@@ -163,7 +164,8 @@ public class Combat {
         System.out.println("\nQue voulez-vous faire ?");
         System.out.println("1. Attaquer");
         System.out.println("2. Utiliser CapTrap");
-        System.out.println("3. Fuir");
+        System.out.println("3. Changer de monstre");
+        System.out.println("4. Fuir");
         System.out.print("Votre choix : ");
         
         try {
@@ -236,6 +238,57 @@ public class Combat {
             }
         }
         return true;
+    }
+    
+    private void changerMonstre() {
+        System.out.println("\n--- CHANGEMENT DE MONSTRE ---");
+        System.out.println("Monstre actuel : " + monstreJoueur.getNom() + " (PV: " + monstreJoueur.getPvActuels() + "/" + monstreJoueur.getPvMax() + ")");
+        System.out.println("\nSélectionnez un autre monstre :");
+        
+        for (int i = 0; i < equipeJoueur.getTaille(); i++) {
+            Monster m = equipeJoueur.getMonstre(i);
+            String statut = "";
+            if (m == monstreJoueur) {
+                statut = " [ACTUEL]";
+            } else if (m.estKO()) {
+                statut = " [KO]";
+            }
+            System.out.println((i + 1) + ". " + m.getNom() + " (Type: " + m.getType() + ") | PV: " + 
+                             m.getPvActuels() + "/" + m.getPvMax() + statut);
+        }
+        
+        System.out.print("\nNuméro du monstre (1-" + equipeJoueur.getTaille() + ") : ");
+        try {
+            String input = scanner.nextLine().trim();
+            if (input.isEmpty()) {
+                System.out.println("Changement annulé.");
+                return;
+            }
+            int choix = Integer.parseInt(input);
+            Monster nouveauMonstre = equipeJoueur.getMonstre(choix - 1);
+            
+            if (nouveauMonstre == null) {
+                System.out.println("Numéro invalide !");
+                return;
+            }
+            
+            if (nouveauMonstre == monstreJoueur) {
+                System.out.println("Ce monstre est déjà en combat !");
+                return;
+            }
+            
+            if (nouveauMonstre.estKO()) {
+                System.out.println("Ce monstre est KO ! Vous ne pouvez pas le choisir.");
+                return;
+            }
+            
+            System.out.println("\n" + monstreJoueur.getNom() + " revient dans l'équipe.");
+            monstreJoueur = nouveauMonstre;
+            System.out.println(monstreJoueur.getNom() + " entre en combat !");
+            
+        } catch (NumberFormatException e) {
+            System.out.println("Veuillez entrer un nombre valide !");
+        }
     }
     
     private Monster selectionnerMonstreNonKO() {
