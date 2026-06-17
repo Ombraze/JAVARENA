@@ -27,7 +27,7 @@ menu principal après création de la partie
 <img width="556" height="622" alt="image" src="https://github.com/user-attachments/assets/c1370839-709a-43fc-99cc-169be9613028" />
 
 
-Voir son equipe (avec l'inventaire en bonus
+Voir son equipe avec l'inventaire en bonus
 
 
 <img width="607" height="485" alt="image" src="https://github.com/user-attachments/assets/ac71068e-4b70-4d19-85ce-f0f6300dfe9d" />
